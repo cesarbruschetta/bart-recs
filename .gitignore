@@ -175,3 +175,12 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
+
+
+# jekyll and Ruby
+*.gem
+.bundle
+.jekyll-cache
+.sass-cache
+_site
+Gemfile.lock

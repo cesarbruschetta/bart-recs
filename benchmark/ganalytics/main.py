@@ -20,7 +20,7 @@ def main():
 
         r = ga.ga_send_pageview(
             f'/products/{row["sku"]}.html',
-            f'Bart Recomendation | Produto - {row["title"]}',
+            f'Bart Recomendation | {row["title"]}',
             df_customers.sample().iloc[0]["uuid"],
         )
         print(r.status_code)

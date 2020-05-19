@@ -3,6 +3,8 @@
 <!DOCTYPE html>
 <html lang="pt_BR">
     <head>
+        {% include analytics.html %}
+        
         <!-- Meta -->
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,7 +12,7 @@
         <meta name="description" content="{{ site.description }}">
         <meta name="author" content="Cesar Augusto Bruschetta">
         
-        <title>Bart Recomendation | {{ site.title }}</title>
+        <title>Bart Recomendation | {{ page.title | default: site.title }}</title>
         
         {% include stylesheet.html %}
     </head> 

@@ -1,7 +1,7 @@
 resource "aws_s3_bucket" "ecommerce" {
   bucket = "ecommerce-raw-bart"
-  acl    = "public-read"
-  policy = "${file("policy.json")}"
+  acl    = "private"
+  policy = "${file("ecommerce-policy.json")}"
 
   tags = {
     Name        = "E-commerce Bart-RECS"
@@ -15,8 +15,8 @@ resource "aws_s3_bucket" "ecommerce" {
 
   cors_rule {
     allowed_headers = ["*"]
-    allowed_methods = ["PUT", "POST"]
-    allowed_origins = ["https://s3-website-test.hashicorp.com"]
+    allowed_methods = ["GET"]
+    allowed_origins = ["*"]
     expose_headers  = ["ETag"]
     max_age_seconds = 3000
   }

@@ -15,7 +15,8 @@ layout: default
                         </tr>
                     </thead>
                     <tbody>
-                        {% for customer in  site.data.customers %}
+                        {% assign customers = site.data.customers | sample: 100 %}
+                        {% for customer in customers %}
                             <tr>
                                 <th scope="row">{{ customer.index }}</th>
                                 <td>{{ customer.name }}</td>

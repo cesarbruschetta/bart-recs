@@ -7,10 +7,10 @@ Gem::Specification.new do |spec|
   spec.email         = ["cesarabruschetta@gmail.com"]
 
   spec.summary       = "Site para vizualização dos produtos e recomendações"
-  spec.homepage      = "https://ecommerce-raw-bart.s3.us-east-1.amazonaws.com"
+  spec.homepage      = "http://ecommerce-raw-bart.s3-website-us-east-1.amazonaws.com"
   spec.license       = "MIT"
 
-  spec.files         = `git ls-files -z`.split("\x0").select { |f| f.match(%r!^(assets|_layouts|_includes|_sass|LICENSE|README|Makefile)!i) }
+  spec.files         = `git ls-files -z`.split("\x0").select { |f| f.match(%r!^(assets|_layouts|_includes|_sass)!i)}
 
   spec.add_runtime_dependency "jekyll", "~> 4.0"
 

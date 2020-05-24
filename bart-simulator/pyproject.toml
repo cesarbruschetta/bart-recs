@@ -12,11 +12,13 @@ homepage = "https://github.com/cesarbruschetta/bart-recs"
 repository = "https://github.com/cesarbruschetta/bart-recs"
 keywords = ["recs", "cli", "analytics", "GA", "dataset"]
 classifiers = [
-    "Environment :: Console",
     "Operating System :: OS Independent",
-    "Topic :: Software Development :: Documentation",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3.7",
     "Topic :: Software Development :: Libraries :: Python Modules",
-    "Topic :: Software Development :: Command Line Interface",
+    "Topic :: Scientific/Engineering :: Human Machine Interfaces",
+    "Topic :: Software Development :: Testing :: Traffic Generation"
 ]
 include = [
     "LICENSE",

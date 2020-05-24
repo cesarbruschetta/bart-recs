@@ -1,3 +1,4 @@
+# https://johnfraney.ca/posts/2019/05/28/create-publish-python-package-poetry/
 .PHONY: .
 
 help:  ## This help
@@ -6,5 +7,15 @@ help:  ## This help
 install: ## Instalação do projeto
 	@poetry install
 
-run: ## run scrypt'
-	@poetry run ga_send
+build: ## build the package
+	@poetry build
+
+publish-test: ##  publish the package to Test PyPI
+	#  poetry config repositories.testpypi https://test.pypi.org/legacy/
+	@poetry publish -r testpypi
+
+publish: ## publishing package to PyPI
+	@poetry publish
+
+run: ## run scrypt, on "k=" recebe os parametros enciados ao script'
+	@poetry run simulator ${k}

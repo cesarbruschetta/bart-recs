@@ -104,12 +104,12 @@ def tools_parser(sargs):
         dataset = func(args.rows)
 
         if "csv" in args.format:
-            dataset.to_csv(path.join(args.desc_path, f"{args.script}.csv"))
+            dataset.to_csv(os.path.join(args.desc_path, f"{args.script}.csv"))
             logger.info("Arquivo csv salvo com sucesso!")
 
         if "json" in args.format:
             dataset.to_json(
-                path.join(args.desc_path, f"{args.script}.csv"),
+                os.path.join(args.desc_path, f"{args.script}.json"),
                 orient="records",
                 indent=4,
             )

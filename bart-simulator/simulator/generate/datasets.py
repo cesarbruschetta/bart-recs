@@ -3,7 +3,7 @@ Geração dos DataSets de Clientes, Produtos
 """
 import random
 from faker import Faker
-from generate.utils import custom_uuid, random_sku
+from simulator.generate.utils import custom_uuid, random_sku
 
 import pandas as pd
 import numpy as np

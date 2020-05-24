@@ -3,7 +3,7 @@ import sys
 import logging
 
 
-from tools import tools_parser
+from simulator.tools import tools_parser
 
 logger = logging.getLogger(__name__)
 

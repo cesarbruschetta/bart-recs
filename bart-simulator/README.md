@@ -1,5 +1,7 @@
 # Bart Simulator (CLI)
 
+[![PyPI version](https://badge.fury.io/py/bart-simulator.svg)](https://badge.fury.io/py/bart-simulator)
+
 Send event views to Google Analytics and Generator customers or products
 
 ## Install

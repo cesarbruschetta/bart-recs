@@ -3,7 +3,7 @@ name = "bart-simulator"
 packages = [ 
     { include="simulator", from="." }
 ]
-version = "0.1.0"
+version = "0.1.1"
 description = "Send event views to Google Analytics and Generator customers or products"
 authors = ["Cesar Augusto <cesarabruschetta@gmail.com>"]
 license = "Apache-2.0"

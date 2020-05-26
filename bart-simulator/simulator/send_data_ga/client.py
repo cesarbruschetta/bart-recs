@@ -43,6 +43,6 @@ class SendData:
             cd1=product_id,  # Custom dimension
         )
         if user_id:
-            data["uid"] = user_id
+            data["cd2"] = user_id
 
         return self._ga_send_data(data)

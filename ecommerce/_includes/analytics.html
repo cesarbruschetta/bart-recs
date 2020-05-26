@@ -12,12 +12,12 @@
   const urlParams = new URLSearchParams(window.location.search);
   const user_id = urlParams.get('user-id') || Cookies.get('user_id');
   if (user_id) {
-    gtag('set', { 'user_id': user_id });
+    gtag('set', { 'dimension2': user_id });
 
-    Cookies.set('user_id', user_id);
+    Cookies.set('dimension2', user_id);
   }
 
   {% if page.sku %}
-  gtag('set', 'dimension1', '{{ page.sku }}');
+      gtag('set', 'dimension1', '{{ page.sku }}');
   {% endif %}
 </script>

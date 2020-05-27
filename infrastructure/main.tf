@@ -5,3 +5,12 @@ provider "aws" {
   region  = "us-east-1"
   profile = "bart-recs"
 }
+ 
+terraform {
+  backend "s3" {
+    bucket = "source-bart-recs"
+    key    = "terraform/terraform.tfstate"
+    region = "us-east-1"
+    profile = "bart-recs"
+  }
+}

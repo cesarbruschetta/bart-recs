@@ -1,6 +1,7 @@
 # Bart Simulator (CLI)
 
 [![PyPI version](https://badge.fury.io/py/bart-simulator.svg)](https://badge.fury.io/py/bart-simulator)
+[![](https://images.microbadger.com/badges/version/cesarbruschetta/bart-simulator.svg)](https://microbadger.com/images/cesarbruschetta/bart-simulator "Get your own version badge on microbadger.com")
 
 Send event views to Google Analytics and Generator customers or products
 
@@ -88,6 +89,8 @@ optional arguments:
                         Caminho para o dataset de products, em csv
   --interactions INTERACTIONS, -i INTERACTIONS
                         Quantidades de interações geradas
+  --random-interactions
+                        Gerar uma quantidades de interações randomicas                        
 ```
 
 

@@ -3,7 +3,9 @@ import logging
 import pkg_resources
 import argparse
 import os
+import sys
 import pandas as pd
+from random import randint
 
 from simulator.generate import datasets
 from simulator.send_data_ga import data_types
@@ -75,11 +77,12 @@ def tools_parser(sargs):
         help="Caminho para o dataset de products, em csv",
     )
     parents_send_data_ga.add_argument(
-        "--interactions",
-        "-i",
-        default=1000,
-        help="Quantidades de interações geradas",
-        type=int,
+        "--interactions", "-i", help="Quantidades de interações geradas", type=int,
+    )
+    parents_send_data_ga.add_argument(
+        "--random-interactions",
+        help="Gerar uma quantidades de interações randomicas",
+        action="store_true",
     )
 
     subparsers.add_parser(
@@ -121,11 +124,23 @@ def tools_parser(sargs):
     elif args.command == "send-data-ga":
         logger.info("Iniciando o processamento...")
 
+        if not args.random_interactions and not args.interactions:
+            logger.error(
+                "Umas das duas opções deve ser determinada"
+                "'--interactions' ou '--random-interactions' deve ser OBRIGATORIO"
+            )
+            sys.exit()
+
         func = getattr(data_types, args.event)
+        if args.random_interactions:
+            interactions = randint(100, 1000)
+        else:
+            interactions = args.interactions
+
         result = func(
             df_customers=pd.read_csv(args.customers),
             df_products=pd.read_csv(args.products),
-            interactions=args.interactions,
+            interactions=interactions,
         )
         logger.info(
             f"Processamento Finalizado, Enviado {args.interactions} {args.event} para o GA"

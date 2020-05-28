@@ -48,11 +48,31 @@ resource "aws_iam_role" "bartRecommendationsInvocationRole" {
 EOF
 }
 
+resource "aws_iam_role" "bartSimulatorTaskExecutionRole" {
+  name = "bartSimulator-task-execution-role"
+
+  assume_role_policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+POLICY
+}
+
 # See also the following AWS managed policy: AWSLambdaBasicExecutionRole
-resource "aws_iam_policy" "bartRecommendationsPolicyLambdaLogging" {
-  name        = "bart-recommendations-lambda-logging"
+resource "aws_iam_policy" "bartRecommendationsPolicyLogging" {
+  name        = "bart-recommendations-logging"
   path        = "/"
-  description = "(Bart-Recs) IAM policy for logging from a lambda"
+  description = "(Bart-Recs) IAM policy for logging"
 
   policy = <<EOF
 {
@@ -62,7 +82,8 @@ resource "aws_iam_policy" "bartRecommendationsPolicyLambdaLogging" {
       "Action": [
         "logs:CreateLogGroup",
         "logs:CreateLogStream",
-        "logs:PutLogEvents"
+        "logs:PutLogEvents",
+        "logs:DescribeLogStreams"
       ],
       "Resource": "arn:aws:logs:*:*:*",
       "Effect": "Allow"
@@ -92,5 +113,16 @@ EOF
 
 resource "aws_iam_role_policy_attachment" "bartRolePolicyAttachmentLambdaLogs" {
   role       = "${aws_iam_role.bartRecommendationsLambdaRole.name}"
-  policy_arn = "${aws_iam_policy.bartRecommendationsPolicyLambdaLogging.arn}"
+  policy_arn = "${aws_iam_policy.bartRecommendationsPolicyLogging.arn}"
+}
+
+# Attach the above policy to the execution role.
+resource "aws_iam_role_policy_attachment" "bartSimulatorTaskExecutionAttachment" {
+  role = "${aws_iam_role.bartSimulatorTaskExecutionRole.name}"
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+}
+
+resource "aws_iam_role_policy_attachment" "bartSimulatorTaskExecutionAttachmentLog" {
+  role = "${aws_iam_role.bartSimulatorTaskExecutionRole.name}"
+  policy_arn = "${aws_iam_policy.bartRecommendationsPolicyLogging.arn}"
 }

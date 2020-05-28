@@ -146,6 +146,7 @@ cython_debug/
 **/.terraform/*
 
 # .tfstate files
+*.tfstate
 *.tfstate.*
 
 # Crash log files

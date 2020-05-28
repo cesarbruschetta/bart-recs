@@ -11,7 +11,7 @@ resource "aws_lambda_permission" "bartRecommendationsAPILambda" {
 
 resource "aws_lambda_function" "bartRecommendationsLambdaAPIAuthorizer" {
   function_name = "bart_recommendations_api_authorizer"
-  filename      = "lambda-api-authorizer.zip"
+  filename      = "./sources/lambda-api-authorizer.zip"
   role          = "${aws_iam_role.bartRecommendationsLambdaRole.arn}"
   handler       = "lambda_function.lambda_handler"
   runtime       = "python3.7"
@@ -30,7 +30,7 @@ resource "aws_lambda_function" "bartRecommendationsLambdaAPIAuthorizer" {
   # The filebase64sha256() function is available in Terraform 0.11.12 and later
   # For Terraform 0.11.11 and earlier, use the base64sha256() function and the file() function:
   # source_code_hash = "${base64sha256(file("lambda-function.zip"))}"
-  source_code_hash = "${filebase64sha256("./lambda-api-authorizer.zip")}"
+  source_code_hash = "${filebase64sha256("./sources/lambda-api-authorizer.zip")}"
 }
 
 resource "aws_lambda_function" "bartRecommendationsLambda" {

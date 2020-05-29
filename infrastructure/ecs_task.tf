@@ -18,7 +18,7 @@ module "ecs_scheduled_task" {
   ecs_task_execution_role_arn    = "${aws_iam_role.bartSimulatorTaskExecutionRole.arn}"
   
   cluster_arn           = "${aws_ecs_cluster.bartSimulatorECSCluster.arn}"
-  subnets               = module.vpc.public_subnet_ids
+  subnets               = "${module.vpc.public_subnet_ids}"
   assign_public_ip      = true
 
   schedule_expression   = "rate(8 hours)"
@@ -26,7 +26,7 @@ module "ecs_scheduled_task" {
   container_definitions = <<DEFINITION
 [
     {
-        "name": "simulator",
+        "name": "bart-simulator",
         "image": "cesarbruschetta/bart-simulator:latest",
         "cpu": 256,
         "memory": 512,
@@ -68,10 +68,10 @@ module "vpc" {
   source  = "git::https://github.com/tmknom/terraform-aws-vpc.git?ref=tags/2.0.1"
   name    = "bart-simulator-scheduled-task-vpc"
   
-  cidr_block                = local.cidr_block
+  cidr_block                = "${local.cidr_block}"
   public_subnet_cidr_blocks = [
-    cidrsubnet(local.cidr_block, 8, 0),
-    cidrsubnet(local.cidr_block, 8, 1)
+    "${cidrsubnet(local.cidr_block, 8, 0)}",
+    "${cidrsubnet(local.cidr_block, 8, 1)}"
   ]
   
   public_availability_zones = [

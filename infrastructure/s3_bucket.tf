@@ -72,3 +72,37 @@ resource "aws_s3_bucket_object" "BartRecsS3BucketSourcesRecommendationsLambda" {
     Project     = "bart-recs"
   }
 }
+
+resource "aws_s3_bucket_object" "BartRecsS3BucketSourcesExtractMainGlueJob" {
+  bucket = "${aws_s3_bucket.BartRecsS3BucketSources.bucket}"
+  key    = "glue/run_main.py"
+  source = "./sources/bart-extract-data-ga/run_main.py"
+
+  # The filemd5() function is available in Terraform 0.11.12 and later
+  # For Terraform 0.11.11 and earlier, use the md5() function and the file() function:
+  # etag = "${md5(file("path/to/file"))}"
+  etag = "${filemd5("./sources/bart-extract-data-ga/run_main.py")}"
+  
+  tags = {
+    Name        = "Sources to Main.py bart-extract data GluJob"
+    Environment = "PRD"
+    Project     = "bart-recs"
+  }
+}
+
+resource "aws_s3_bucket_object" "BartRecsS3BucketSourcesExtractEggGlueJob" {
+  bucket = "${aws_s3_bucket.BartRecsS3BucketSources.bucket}"
+  key    = "library/bart_extract-0.1.0-py3-none-any.whl"
+  source = "./sources/bart_extract-0.1.0-py3-none-any.whl"
+
+  # The filemd5() function is available in Terraform 0.11.12 and later
+  # For Terraform 0.11.11 and earlier, use the md5() function and the file() function:
+  # etag = "${md5(file("path/to/file"))}"
+  etag = "${filemd5("./sources/bart_extract-0.1.0-py3-none-any.whl")}"
+  
+  tags = {
+    Name        = "Sources to whl bart-extract data GluJob"
+    Environment = "PRD"
+    Project     = "bart-recs"
+  }
+}

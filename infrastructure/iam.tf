@@ -68,6 +68,25 @@ resource "aws_iam_role" "bartSimulatorTaskExecutionRole" {
 POLICY
 }
 
+resource "aws_iam_role" "bartExtractGlueJobRole" {
+  name = "bartExtract-AWSGlue-JobRoleDefault"
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "glue.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+}
+
 # See also the following AWS managed policy: AWSLambdaBasicExecutionRole
 resource "aws_iam_policy" "bartRecommendationsPolicyLogging" {
   name        = "bart-recommendations-logging"
@@ -111,6 +130,28 @@ resource "aws_iam_role_policy" "bartRecommendationsInvocationPolicy" {
 EOF
 }
 
+resource "aws_iam_role_policy" "bartExtractGlueS3Policy" {
+  name = "bartExtract-glue-s3-policy"
+  role = "${aws_iam_role.bartExtractGlueJobRole.id}"
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:*"
+      ],
+      "Resource": [
+        "arn:aws:s3:::*",
+        "arn:aws:s3:::*/*"
+      ]
+    }
+  ]
+}
+EOF
+}
+
 resource "aws_iam_role_policy_attachment" "bartRolePolicyAttachmentLambdaLogs" {
   role       = "${aws_iam_role.bartRecommendationsLambdaRole.name}"
   policy_arn = "${aws_iam_policy.bartRecommendationsPolicyLogging.arn}"
@@ -125,4 +166,9 @@ resource "aws_iam_role_policy_attachment" "bartSimulatorTaskExecutionAttachment"
 resource "aws_iam_role_policy_attachment" "bartSimulatorTaskExecutionAttachmentLog" {
   role = "${aws_iam_role.bartSimulatorTaskExecutionRole.name}"
   policy_arn = "${aws_iam_policy.bartRecommendationsPolicyLogging.arn}"
+}
+
+resource "aws_iam_role_policy_attachment" "bartExtractGlueJobAttachment" {
+    role = "${aws_iam_role.bartExtractGlueJobRole.id}"
+    policy_arn = "arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole"
 }

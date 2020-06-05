@@ -34,9 +34,7 @@ l_config.dictConfig(
     }
 )
 
-
-def run():
-
+def run(sargs):
     parser = argparse.ArgumentParser()
     parser.add_argument("--loglevel", default="INFO")
     parser.add_argument(
@@ -49,9 +47,8 @@ def run():
         "--s3-path", required=True,
     )
 
-    sargs = sys.argv[1:]
     ################################################################################################
-    args = parser.parse_args(sargs)
+    args, _ = parser.parse_known_args(sargs)
 
     # CHANGE LOGGER
     level = getattr(logging, args.loglevel.upper())
@@ -68,6 +65,4 @@ def run():
 
     logger.info(f"Processamento Finalizado, dataset gerado {len(dataset)} linhas")
 
-
-if __name__ == "__main__":
-    run()
+    return 0

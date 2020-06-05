@@ -1,12 +1,7 @@
 
 resource "aws_api_gateway_rest_api" "bartRecommendationsAPI" {
-  name = "api-bartRecommendations"
-  description = "API para enviar as recomendações de produtos (bart-recs)"
- 
-  tags = {
-    Project     = "bart-recs"
-    Environment = "PRD"
-  }
+ name = "api-bartRecommendations"
+ description = "API para enviar as recomendações de produtos (bart-recs)"
 }
 
 resource "aws_api_gateway_authorizer" "bartRecommendationsAPIAuthorizer" {
@@ -14,14 +9,13 @@ resource "aws_api_gateway_authorizer" "bartRecommendationsAPIAuthorizer" {
   rest_api_id            = "${aws_api_gateway_rest_api.bartRecommendationsAPI.id}"
   authorizer_uri         = "${aws_lambda_function.bartRecommendationsLambdaAPIAuthorizer.invoke_arn}"
   authorizer_credentials = "${aws_iam_role.bartRecommendationsInvocationRole.arn}"
-
 }
+
 
 resource "aws_api_gateway_resource" "bartRecommendationsResource" {
   rest_api_id = "${aws_api_gateway_rest_api.bartRecommendationsAPI.id}"
   parent_id   = "${aws_api_gateway_rest_api.bartRecommendationsAPI.root_resource_id}"
   path_part   = "recommendations"
-
 }
 
 resource "aws_api_gateway_method" "bartRecommendationsMethod" {
@@ -30,7 +24,6 @@ resource "aws_api_gateway_method" "bartRecommendationsMethod" {
   http_method   = "GET"
   authorization = "CUSTOM"
   authorizer_id = "${aws_api_gateway_authorizer.bartRecommendationsAPIAuthorizer.id}"  
-
 }
 
 resource "aws_api_gateway_integration" "bartRecommendationsIntegration" {
@@ -40,7 +33,6 @@ resource "aws_api_gateway_integration" "bartRecommendationsIntegration" {
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
   uri                     = "${aws_lambda_function.bartRecommendationsLambda.invoke_arn}"
-
 }
 
 resource "aws_api_gateway_deployment" "bartRecommendationsDeployment" {
@@ -50,5 +42,4 @@ resource "aws_api_gateway_deployment" "bartRecommendationsDeployment" {
 
   rest_api_id = "${aws_api_gateway_rest_api.bartRecommendationsAPI.id}"
   stage_name  = "v1"
-
 }

@@ -10,7 +10,7 @@ resource "aws_glue_job" "bartExtractGlueJob" {
 
   default_arguments = {
     "--ga-viewId" = "ga:218694870"
-    "--ga-credential" = ""
+    "--ga-credential" = "${file("${var.ga_credential}")}"
     "--s3-path" = "s3://${aws_s3_bucket.BartRecsS3BucketLakeRaw.bucket}"
     # config
     "--job-language" = "pythonshell"
@@ -24,13 +24,20 @@ resource "aws_glue_job" "bartExtractGlueJob" {
 
 }
 
-resource "aws_glue_trigger" "bartExtractGlueJob" {
-  name     = "bartExtract-data-GA-everyday"
-  schedule = "cron(0 21 * * ? *)"
-  type     = "SCHEDULED"
+resource "aws_glue_catalog_database" "bartExtractGlueDataBase" {
+  name = "bart-recs-database"
+}
 
-  actions {
-    job_name = "${aws_glue_job.bartExtractGlueJob.name}"
+resource "aws_glue_crawler" "bartExtractGlueCrawler" {
+  database_name = "${aws_glue_catalog_database.bartExtractGlueDataBase.name}"
+  name          = "bart-recs-GA-interactions"
+  description   = "Coleta os dados do GA e agrupa e salva na Tabela do Glue"
+  role          = "${aws_iam_role.bartExtractGlueJobRole.arn}"
+
+  schedule      = "cron(0 21 * * ? *)"
+
+  s3_target {
+    path = "s3://${aws_s3_bucket.BartRecsS3BucketLakeRaw.bucket}/ga_pageviews"
   }
 
   tags = {

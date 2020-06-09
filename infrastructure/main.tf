@@ -14,3 +14,8 @@ terraform {
     profile = "bart-recs"
   }
 }
+
+variable "ga_credential" {
+  type = "string"
+  description = "Caminho do arquivo de credentials para o GA service Account"
+}

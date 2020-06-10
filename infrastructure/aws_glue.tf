@@ -24,8 +24,26 @@ resource "aws_glue_job" "bartExtractGlueJob" {
 
 }
 
+resource "aws_glue_trigger" "bartExtractGlueJob" {
+  name     = "bartExtract-data-GA-everyday"
+  schedule = "cron(30 20 * * ? *)"
+  type     = "SCHEDULED"
+
+  actions {
+    job_name = "${aws_glue_job.bartExtractGlueJob.name}"
+  }
+
+  tags = {
+    Project     = "bart-recs"
+    Environment = "PRD"
+  }
+
+}
+
 resource "aws_glue_catalog_database" "bartExtractGlueDataBase" {
-  name = "bart-recs-database"
+  name         = "bart-recs-database"
+  description  = "Base de dados para os dados coletados do GA"
+  location_uri = "s3://prd-lake-raw-bart/database"
 }
 
 resource "aws_glue_crawler" "bartExtractGlueCrawler" {

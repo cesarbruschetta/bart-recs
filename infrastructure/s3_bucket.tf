@@ -89,6 +89,7 @@ resource "aws_s3_bucket_object" "BartRecsS3BucketSourcesExtractMainGlueJob" {
     Project     = "bart-recs"
   }
 }
+
 resource "aws_s3_bucket_object" "BartRecsS3BucketSourcesExtractEggGlueJob" {
   bucket = "${aws_s3_bucket.BartRecsS3BucketSources.bucket}"
   key    = "library/bart_extract-0.1.0-py3-none-any.whl"
@@ -100,7 +101,7 @@ resource "aws_s3_bucket_object" "BartRecsS3BucketSourcesExtractEggGlueJob" {
   etag = "${filemd5("./sources/bart_extract-0.1.0-py3-none-any.whl")}"
   
   tags = {
-    Name        = "Sources to Egg bart-extract data GluJob"
+    Name        = "Sources to whl bart-extract data GluJob"
     Environment = "PRD"
     Project     = "bart-recs"
   }

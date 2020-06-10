@@ -16,6 +16,6 @@ terraform {
 }
 
 variable "ga_credential" {
-  type = "string"
+  type = string
   description = "Caminho do arquivo de credentials para o GA service Account"
 }

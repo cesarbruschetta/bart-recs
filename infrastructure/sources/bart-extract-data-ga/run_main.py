@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 if __name__ == "__main__":
     try:
-        sys.exit(run(sys.argv[1:]))
+        run(sys.argv[1:])
     except KeyboardInterrupt:
         # É convencionado no shell que o programa finalizado pelo signal de
         # código N deve retornar o código N + 128.

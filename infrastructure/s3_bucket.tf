@@ -76,12 +76,12 @@ resource "aws_s3_bucket_object" "BartRecsS3BucketSourcesRecommendationsLambda" {
 resource "aws_s3_bucket_object" "BartRecsS3BucketSourcesExtractMainGlueJob" {
   bucket = "${aws_s3_bucket.BartRecsS3BucketSources.bucket}"
   key    = "glue/main.py"
-  source = "./sources/bart-extract-data-ga/main.py"
+  source = "./sources/bart-extract-data-ga/run_main.py"
 
   # The filemd5() function is available in Terraform 0.11.12 and later
   # For Terraform 0.11.11 and earlier, use the md5() function and the file() function:
   # etag = "${md5(file("path/to/file"))}"
-  etag = "${filemd5("./sources/bart-extract-data-ga/main.py")}"
+  etag = "${filemd5("./sources/bart-extract-data-ga/run_main.py")}"
   
   tags = {
     Name        = "Sources to Main.py bart-extract data GluJob"

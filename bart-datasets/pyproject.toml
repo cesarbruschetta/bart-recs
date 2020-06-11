@@ -1,9 +1,9 @@
 [tool.poetry]
-name = "bart-extract"
+name = "bart-datasets"
 packages = [ 
-    { include="bart_extract", from="." }
+    { include="bartdatasets", from="." }
 ]
-version = "0.1.0"
+version = "0.1.2"
 description = ""
 authors = ["Cesar Augusto <cesarabruschetta@gmail.com>"]
 

@@ -3,9 +3,17 @@
 help:  ## This help
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-install: ## instala dependencias do pacote
+use36:
+	@poetry env use 3.6
+
+install: use36 ## instala dependencias do pacote
 	@poetry install
 
-package: ## Gerar o pacote para o AWS Glue
+publish: use36 ## build the package and publishing package to PyPI
+	@poetry build \
+		&& poetry publish
+
+package: use36  ## Gerar o pacote para o AWS Glue
 	@poetry build -f wheel \
-		&& mv ./dist/*.whl ../
+		&& mv ./dist/*.whl ../infrastructure/sources \
+		&& ls -1 ../infrastructure/sources/*.whl

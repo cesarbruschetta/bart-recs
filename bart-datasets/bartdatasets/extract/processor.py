@@ -36,7 +36,7 @@ def extract_by_date_ranger(
         raise ValueError("start_date or end_date cannot be in the future")
 
     days_start = (today - end_date).days or 1
-    d_agos = (end_date - start_date).days or 1
+    d_agos = ((end_date - start_date).days or 1) + days_start
 
     dataset = reporting.extract_data(d_ago=d_agos, start=days_start)
 

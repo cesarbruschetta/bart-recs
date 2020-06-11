@@ -50,12 +50,12 @@ class GoogleAnalyticsReporting:
             Returns:
             An authorized Analytics Reporting API V4 service object.
         """
-        credentials = Credentials.from_service_account_info(
-            self.credentials_json_dict
-        )
+        credentials = Credentials.from_service_account_info(self.credentials_json_dict)
 
         # Build the service object.
-        analytics = build("analyticsreporting", "v4", credentials=credentials, cache_discovery=False)
+        analytics = build(
+            "analyticsreporting", "v4", credentials=credentials, cache_discovery=False
+        )
         return analytics
 
     def _get_data_report(self, d_ago: int, start: int = 1) -> Dict[str, Any]:

@@ -17,5 +17,6 @@ terraform {
 
 variable "ga_credential" {
   type = string
+  default = "./sources/bart-credentials.json"
   description = "Caminho do arquivo de credentials para o GA service Account"
 }

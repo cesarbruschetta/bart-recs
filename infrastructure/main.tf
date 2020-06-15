@@ -20,3 +20,9 @@ variable "ga_credential" {
   default = "./sources/bart-credentials.json"
   description = "Caminho do arquivo de credentials para o GA service Account"
 }
+
+variable "bart_datasets_version" {
+  type = string
+  default = "0.2.0"
+  description = "Versão da lib bart-datasets"
+}

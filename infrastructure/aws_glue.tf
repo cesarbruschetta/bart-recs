@@ -34,6 +34,31 @@ resource "aws_glue_job" "bartJoinDataGlueJob" {
   default_arguments = {
     # config
     "--job-language" = "pythonshell"
+    "--extra-py-files" = "s3://${aws_s3_bucket.BartRecsS3BucketSources.bucket}/${aws_s3_bucket_object.BartRecsS3BucketSourcesExtractEggGlueJob.key}"
+  }
+
+  tags = {
+    Project     = "bart-recs"
+    Environment = "PRD"
+  }
+
+}
+
+resource "aws_glue_job" "bartCalcPublishGlueJob" {
+  name     = "bart-calc-publish"
+  role_arn = "${aws_iam_role.bartExtractGlueJobRole.arn}"
+  glue_version =  "1.0"
+
+  command {
+    script_location = "s3://${aws_s3_bucket.BartRecsS3BucketSources.bucket}/${aws_s3_bucket_object.BartRecsS3BucketSourcesCalcPublishMainGlueJob.key}"
+    python_version = 3
+    name = "glueetl"
+  }
+
+  default_arguments = {
+    # config
+    "--job-language" = "python"
+    "--extra-py-files" = "s3://${aws_s3_bucket.BartRecsS3BucketSources.bucket}/${aws_s3_bucket_object.BartRecsS3BucketSourcesExtractEggGlueJob.key}"
   }
 
   tags = {
@@ -79,6 +104,29 @@ resource "aws_glue_trigger" "bartJoinDataGlueJob" {
 
   actions {
     job_name = "${aws_glue_job.bartJoinDataGlueJob.name}"
+  }
+
+  tags = {
+    Project     = "bart-recs"
+    Environment = "PRD"
+  }
+
+}
+
+resource "aws_glue_trigger" "bartCalcPublishGlueJob" {
+  name          = "bart-calc-publish-wvav"
+  type          = "CONDITIONAL"
+  workflow_name = "${aws_glue_workflow.bartExtractGlueInteractions.name}"
+
+  predicate {
+    conditions {
+      job_name = "${aws_glue_job.bartJoinDataGlueJob.name}"
+      state    = "SUCCEEDED"
+    }
+  }
+
+  actions {
+    job_name = "${aws_glue_job.bartCalcPublishGlueJob.name}"
   }
 
   tags = {

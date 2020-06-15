@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 def run():
     s3 = boto3.resource("s3")
-    obj = s3.Object("source-bart-recs", "credentials/GA_credentials.json")
+    ga_credential = s3.Object("source-bart-recs", "credentials/GA_credentials.json")
 
     return extract_yesterday(
         ga_viewId="ga:218694870",

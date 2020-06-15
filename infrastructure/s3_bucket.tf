@@ -72,10 +72,10 @@ resource "aws_s3_bucket_object" "BartRecsS3BucketSourcesRecommendationsLambda" {
 
 resource "aws_s3_bucket_object" "BartRecsS3BucketSourcesExtractEggGlueJob" {
   bucket = "${aws_s3_bucket.BartRecsS3BucketSources.bucket}"
-  key    = "library/bart_datasets-0.1.2-py3-none-any.whl"
-  source = "./sources/bart_datasets-0.1.2-py3-none-any.whl"
+  key    = "library/bart_datasets-${var.bart_datasets_version}-py3-none-any.whl"
+  source = "./sources/bart_datasets-${var.bart_datasets_version}-py3-none-any.whl"
 
-  etag = "${filemd5("./sources/bart_datasets-0.1.2-py3-none-any.whl")}"
+  etag = "${filemd5("./sources/bart_datasets-${var.bart_datasets_version}-py3-none-any.whl")}"
   
   tags = {
     Name        = "Sources to whl bart-extract data GluJob"
@@ -121,6 +121,20 @@ resource "aws_s3_bucket_object" "BartRecsS3BucketSourcesJoinDataMainGlueJob" {
   
   tags = {
     Name        = "Sources to bart-join-data in GlueJob"
+    Environment = "PRD"
+    Project     = "bart-recs"
+  }
+}
+
+resource "aws_s3_bucket_object" "BartRecsS3BucketSourcesCalcPublishMainGlueJob" {
+  bucket = "${aws_s3_bucket.BartRecsS3BucketSources.bucket}"
+  key    = "glue/bart-calc-publish-recs.py"
+  source = "./sources/aws-glue/bart-calc-publish-recs.py"
+
+  etag = "${filemd5("./sources/aws-glue/bart-calc-publish-recs.py")}"
+  
+  tags = {
+    Name        = "Sources to bart-calc-publish-recs in GlueJob"
     Environment = "PRD"
     Project     = "bart-recs"
   }

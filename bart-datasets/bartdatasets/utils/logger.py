@@ -5,7 +5,7 @@ from logging import config as l_config
 
 def configure_logger():
 
-    SUB_DICT_CONFIG = {"level": "DEBUG", "handlers": [], "propagate": False}
+    SUB_DICT_CONFIG = {"level": "INFO", "handlers": [], "propagate": False}
 
     l_config.dictConfig(
         {
@@ -24,7 +24,11 @@ def configure_logger():
                     "stream": "ext://sys.stdout",
                 }
             },
-            "loggers": {},
+            "loggers": {
+                "py4j.java_gateway": SUB_DICT_CONFIG,
+                "botocore": SUB_DICT_CONFIG,
+                "urllib3": SUB_DICT_CONFIG,
+            },
             "root": {"level": "DEBUG", "handlers": ["console"]},
         }
     )

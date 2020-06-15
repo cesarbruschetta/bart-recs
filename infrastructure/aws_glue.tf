@@ -50,7 +50,8 @@ resource "aws_glue_workflow" "bartExtractGlueInteractions" {
 
 resource "aws_glue_trigger" "bartExtractGlueJob" {
   name     = "bartExtract-data-GA-everyday"
-  type          = "ON_DEMAND"
+  schedule = "cron(30 20 * * ? *)"
+  type     = "SCHEDULED"
   workflow_name = "${aws_glue_workflow.bartExtractGlueInteractions.name}"
 
   actions {

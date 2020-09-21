@@ -1,3 +1,8 @@
+locals {
+  bart_datasets = reverse(fileset("./sources/", "*.whl"))[0]
+  bart_datasets_version =  sort(regex("([0-9.]{5})", local.bart_datasets))[0]
+}
+
 resource "aws_s3_bucket" "BartRecsS3BucketLakeRaw" {
   bucket = "prd-lake-raw-bart"
   acl    = "private"
@@ -71,11 +76,12 @@ resource "aws_s3_bucket_object" "BartRecsS3BucketSourcesRecommendationsLambda" {
 }
 
 resource "aws_s3_bucket_object" "BartRecsS3BucketSourcesExtractEggGlueJob" {
-  bucket = "${aws_s3_bucket.BartRecsS3BucketSources.bucket}"
-  key    = "library/bart_datasets-${var.bart_datasets_version}-py3-none-any.whl"
-  source = "./sources/bart_datasets-${var.bart_datasets_version}-py3-none-any.whl"
 
-  etag = "${filemd5("./sources/bart_datasets-${var.bart_datasets_version}-py3-none-any.whl")}"
+  bucket = "${aws_s3_bucket.BartRecsS3BucketSources.bucket}"
+  key    = "library/bart_datasets-${local.bart_datasets_version}-py3-none-any.whl"
+  source = "./sources/bart_datasets-${local.bart_datasets_version}-py3-none-any.whl"
+
+  etag = "${filemd5("./sources/bart_datasets-${local.bart_datasets_version}-py3-none-any.whl")}"
   
   tags = {
     Name        = "Sources to whl bart-extract data GluJob"

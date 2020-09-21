@@ -1,6 +1,8 @@
 resource "aws_glue_job" "bartExtractGlueJob" {
   name     = "bartExtract-data-GA"
   role_arn = "${aws_iam_role.bartExtractGlueJobRole.arn}"
+  glue_version =  "1.0"
+  max_capacity = "1"
 
   command {
     script_location = "s3://${aws_s3_bucket.BartRecsS3BucketSources.bucket}/${aws_s3_bucket_object.BartRecsS3BucketSourcesExtractMainGlueJob.key}"
@@ -24,6 +26,8 @@ resource "aws_glue_job" "bartExtractGlueJob" {
 resource "aws_glue_job" "bartJoinDataGlueJob" {
   name     = "bartJoin-data-GA"
   role_arn = "${aws_iam_role.bartExtractGlueJobRole.arn}"
+  glue_version =  "1.0"
+  max_capacity = "1"  
 
   command {
     script_location = "s3://${aws_s3_bucket.BartRecsS3BucketSources.bucket}/${aws_s3_bucket_object.BartRecsS3BucketSourcesJoinDataMainGlueJob.key}"
@@ -48,6 +52,7 @@ resource "aws_glue_job" "bartCalcPublishGlueJob" {
   name     = "bart-calc-publish"
   role_arn = "${aws_iam_role.bartExtractGlueJobRole.arn}"
   glue_version =  "1.0"
+  max_capacity = "1"
 
   command {
     script_location = "s3://${aws_s3_bucket.BartRecsS3BucketSources.bucket}/${aws_s3_bucket_object.BartRecsS3BucketSourcesCalcPublishMainGlueJob.key}"
@@ -57,7 +62,7 @@ resource "aws_glue_job" "bartCalcPublishGlueJob" {
 
   default_arguments = {
     # config
-    "--job-language" = "python"
+    "--job-language" = "pythonshell"
     "--extra-py-files" = "s3://${aws_s3_bucket.BartRecsS3BucketSources.bucket}/${aws_s3_bucket_object.BartRecsS3BucketSourcesExtractEggGlueJob.key}"
   }
 

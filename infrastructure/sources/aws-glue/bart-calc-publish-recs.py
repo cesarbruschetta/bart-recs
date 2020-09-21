@@ -1,11 +1,10 @@
 import boto3
-import pandas as pd
+from awsglue.context import GlueContext
+from pyspark.context import SparkContext
 
-from pyspark.sql import SparkSession
-
-spark = (
-    SparkSession.builder.master("local").appName("bart-calc-publish-recs").getOrCreate()
-)
+# Create Glue Context from Spark Context
+glueContext = GlueContext(SparkContext.getOrCreate())
+spark = glueContext.spark_session
 
 from bartdatasets.recommendations.calculate_wvav import calculate
 from bartdatasets.recommendations.publish_wvav import publish
@@ -18,9 +17,7 @@ def run():
     max_recommendations = 200
     dynamodb = boto3.resource("dynamodb")
 
-    actions = spark.createDataFrame(
-        pd.read_parquet("s3://prd-lake-raw-bart/interactions.parquet")
-    )
+    actions = spark.read.parquet("s3://prd-lake-raw-bart/interactions.parquet")
     recommendations = calculate(
         actions=actions,
         min_occurrence=min_occurrence,

@@ -25,3 +25,19 @@ publish-test: ##  publish the package to Test PyPI
 run-simulator: ## run scrypt, on "k=" recebe os parametros enciados ao script'
 	@cd ${P} && \
 		poetry run simulator ${k}
+
+build: ## Criar docker image bart-simulator
+	@cd ${P} && \
+		docker build --tag bart-simulator:${V} ./
+
+tag: ## Criar Tags da image docker bart-simulator
+	@cd ${P} && \
+		docker tag bart-simulator:${V} cesarbruschetta/bart-simulator:${V}
+	@cd ${P} && \
+		docker tag bart-simulator:${V} cesarbruschetta/bart-simulator:latest
+
+push: ## Enviar Tags para o Docker hub bart-simulator
+	@cd ${P} && \
+		docker push cesarbruschetta/bart-simulator:${V}
+	@cd ${P} && \
+		docker push cesarbruschetta/bart-simulator:latest

@@ -3,9 +3,23 @@ name = "bart-extract-ga"
 packages = [ 
     { include="extract", from="." }
 ]
-version = "0.1.0"
-description = ""
+version = "0.1.1"
+description = "Extract event views to Google Analytics"
 authors = ["Cesar Augusto <cesarabruschetta@gmail.com>"]
+license = "Apache-2.0"
+readme = "README.md"
+homepage = "https://github.com/cesarbruschetta/bart-recs"
+repository = "https://github.com/cesarbruschetta/bart-recs"
+keywords = ["recs", "lib", "analytics", "GA", "extract"]
+classifiers = [
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3.7",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+include = [
+    "../LICENSE",
+]
 
 [tool.poetry.dependencies]
 python = ">=3.6.1,<3.7"

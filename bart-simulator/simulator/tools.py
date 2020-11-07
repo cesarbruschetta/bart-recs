@@ -65,6 +65,12 @@ def tools_parser(sargs):
         "event", choices=["pageview",], help="Tipo de evento que sera enviado ao GA",
     )
     parents_send_data_ga.add_argument(
+        "--ga-track-id",
+        "-gaId",
+        help="Id de acompanhamento para o sua conta do GA",
+    )
+
+    parents_send_data_ga.add_argument(
         "--customers",
         "-c",
         required=True,
@@ -141,6 +147,7 @@ def tools_parser(sargs):
             df_customers=pd.read_csv(args.customers),
             df_products=pd.read_csv(args.products),
             interactions=interactions,
+            ga_viewId=args.ga_track_id,
         )
         logger.info(
             f"Processamento Finalizado, Enviado {args.interactions} {args.event} para o GA"

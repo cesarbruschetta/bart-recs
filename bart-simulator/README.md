@@ -67,9 +67,10 @@ optional arguments:
 
 ```
 $ simulator send-data-ga pageview \
-    -c https://github.com/cesarbruschetta/bart-recs/datasets/customers.csv \
-    -p https://github.com/cesarbruschetta/bart-recs/datasets/products.csv \
-    -i 10
+    -c https://raw.githubusercontent.com/cesarbruschetta/bart-recs/master/datasets/customers.csv \
+    -p https://raw.githubusercontent.com/cesarbruschetta/bart-recs/master/datasets/products.csv \
+    -i 10 \
+    -gaId "ga:123456789"
 ```
 
 #### Full Options
@@ -83,6 +84,8 @@ positional arguments:
 
 optional arguments:
   -h, --help            show this help message and exit
+  --ga-track-id GA_TRACK_ID, -gaId GA_TRACK_ID
+                        Id de acompanhamento para o sua conta do GA
   --customers CUSTOMERS, -c CUSTOMERS
                         Caminho para o dataset de customers, em csv
   --products PRODUCTS, -p PRODUCTS

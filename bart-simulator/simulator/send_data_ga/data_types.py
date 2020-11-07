@@ -8,11 +8,11 @@ logger = logging.getLogger(__name__)
 
 
 def pageview(
-    df_customers: pd.DataFrame, df_products: pd.DataFrame, interactions: int
+    df_customers: pd.DataFrame, df_products: pd.DataFrame, interactions: int, ga_viewId: str,
 ) -> None:
 
     ga = SendData(
-        "ecommerce-raw-bart.s3-website-us-east-1.amazonaws.com", "UA-166855025-1"
+        "ecommerce-raw-bart.website.com", ga_viewId
     )
 
     for _id in np.arange(0, interactions):
